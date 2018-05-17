@@ -11,22 +11,19 @@ import {
     ScrollView
 } from 'react-native';
 
- 
-import Icon from 'react-native-vector-icons/FontAwesome';
-
-import Container from './components/container';
-import Button from './components/button';
-import Label from './components/label';
-import { Input } from './components/textInput';
+import Container from '../common/container';
+import Button from '../common/button';
+import Label from '../common/label';
+import { Input } from '../common/textInput';
 
 const styles = StyleSheet.create({
   scroll: {
-      backgroundColor: '#E1D7D8',
+      backgroundColor: '#181818',
       padding: 30,
       flexDirection: 'column'
   },
   label: {
-      color: '#0d8898',
+      color: '#fff',
       fontSize: 20
   },
   alignRight: {
@@ -39,7 +36,7 @@ const styles = StyleSheet.create({
   },
   buttonBlueText: {
       fontSize: 20,
-      color: '#3B5699'
+      color: '#fff'
   },
   buttonBigText: {
       fontSize: 20,
@@ -54,11 +51,11 @@ const styles = StyleSheet.create({
   },
   buttonBlackText: {
       fontSize: 20,
-      color: '#595856',
+      color: '#fff',
 
   },
   primaryButton: {
-      backgroundColor: '#34A853'
+      backgroundColor: '#750e13'
   },
   footer: {
      marginTop: 50
@@ -116,16 +113,6 @@ export default class Login extends React.Component {
     async _onValueChange(item, selectedValue) {
         try {
             await AsyncStorage.setItem(item, selectedValue);
-            console.log(AsyncStorage.getItem('STORAGE_KEY'));
-        } catch (error) {
-            console.log('AsyncStorage error: ' + error.message);
-        }
-    };
-
-    async _userLogout() {
-        try {
-            await AsyncStorage.removeItem(STORAGE_KEY);
-            Alert.alert("Logout Success!")
         } catch (error) {
             console.log('AsyncStorage error: ' + error.message);
         }
@@ -161,10 +148,9 @@ export default class Login extends React.Component {
         })
         .then((response) => response.json())
         .then((responseData) => {
-            Alert.alert(
-                "Connexion réussie!"
-            ),
-            this._onValueChange('STORAGE_KEY', responseData.token)
+            this._onValueChange('userToken', responseData.token),
+            this._onValueChange('userNickname', responseData.user),
+            this.props.navigation.navigate('App');
         })
         .done();
     };

@@ -3,7 +3,7 @@ import {
     View, 
     Text, 
     ScrollView,
-    StyleSheet 
+    StyleSheet
 } from "react-native";
 
 import Container from '../common/container';
@@ -12,7 +12,7 @@ import Button from '../common/button';
 const styles = StyleSheet.create({
 });
 
-export default class Home extends React.Component {
+export default class Quiz extends React.Component {
 
     constructor(props){
         super(props);
@@ -24,13 +24,7 @@ export default class Home extends React.Component {
             <View style={styles.container}>
                 <View style={styles.row}>
                     <ScrollView style={styles.scroll}>
-                        <Text>Bienvenu sur MovieSpotter l'application qui vous propose un film en fonction de vos envies et de vos humeurs!</Text>
-                        <Container>
-                            <Button 
-                                label="Trouve moi un film"
-                                styles={{button: styles.primaryButton, label: styles.buttonWhiteText}} 
-                                onPress={() => this.props.navigation.navigate('Quiz')} />
-                        </Container>
+                        <Text>Bienvenu sur MovieSpotter !</Text>
                     </ScrollView>
                 </View>
             </View>

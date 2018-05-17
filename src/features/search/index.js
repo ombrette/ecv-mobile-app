@@ -1,7 +1,8 @@
 import React from 'react';
 import { FlatList, ActivityIndicator, Text, View  } from 'react-native';
+import Config from 'react-native-config';
 
-export default class Movies extends React.Component {
+export default class Search extends React.Component {
 
     constructor(props){
         super(props);
@@ -12,7 +13,7 @@ export default class Movies extends React.Component {
         return fetch('https://api.themoviedb.org/3/discover/movie?&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=1', {
             method: "GET",
             headers: {
-                'Authorization': 'Bearer ' + DEMO_TOKEN
+                'Authorization': 'Bearer ' + Config.API_TOKEN
             }
         })
             .then((response) => response.json())

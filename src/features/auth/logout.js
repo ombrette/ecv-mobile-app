@@ -1,10 +1,12 @@
 import React from "react";
-import { 
-    View, 
-    Text, 
-    ScrollView,
-    StyleSheet 
-} from "react-native";
+import {
+    AppRegistry,
+    AsyncStorage,
+    StyleSheet,
+    View,
+    Alert,
+    ScrollView
+} from 'react-native';
 
 import Container from '../common/container';
 import Button from '../common/button';
@@ -12,24 +14,36 @@ import Button from '../common/button';
 const styles = StyleSheet.create({
 });
 
-export default class Home extends React.Component {
+
+export default class Logout extends React.Component {
 
     constructor(props){
         super(props);
-        this.state ={ isLoading: true}
+        this.state ={ 
+            isLoading: true,
+        };
     }
 
-    render(){
-        return(
+    async _userLogout() {
+        try {
+            await AsyncStorage.clear();
+            this.props.navigation.navigate('Auth');
+        } catch (error) {
+            console.log('AsyncStorage error: ' + error.message);
+        }
+    };
+
+
+    render() {
+        return (
             <View style={styles.container}>
                 <View style={styles.row}>
                     <ScrollView style={styles.scroll}>
-                        <Text>Bienvenu sur MovieSpotter l'application qui vous propose un film en fonction de vos envies et de vos humeurs!</Text>
                         <Container>
                             <Button 
-                                label="Trouve moi un film"
+                                label="Déconnexion"
                                 styles={{button: styles.primaryButton, label: styles.buttonWhiteText}} 
-                                onPress={() => this.props.navigation.navigate('Quiz')} />
+                                onPress={this._userLogout.bind(this)} />
                         </Container>
                     </ScrollView>
                 </View>

@@ -10,15 +10,11 @@ import {
     TextInput,
     ScrollView
 } from 'react-native';
- 
-import Icon from 'react-native-vector-icons/FontAwesome';
 
-import Container from './components/container';
-import Button from './components/button';
-import Label from './components/label';
-import { Input } from './components/textInput';
-
-var STORAGE_KEY = '';
+import Container from '../common/container';
+import Button from '../common/button';
+import Label from '../common/label';
+import { Input } from '../common/textInput';
 
 const styles = StyleSheet.create({
   scroll: {
@@ -178,11 +174,9 @@ export default class Signup extends React.Component {
         })
         .then((response) => response.json())
         .then((responseData) => {
-            this._onValueChange(STORAGE_KEY, responseData.token),
-                Alert.alert(
-                   STORAGE_KEY,
-                    "Signup Success!"
-                )
+            this._onValueChange('userToken', responseData.token)
+            this._onValueChange('userNickname', responseData.userNickname)
+            this.props.navigation.navigate('App');
         })
         .done();
     };
