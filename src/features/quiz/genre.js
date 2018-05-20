@@ -5,6 +5,7 @@ import {
     View, 
     Text, 
     ScrollView,
+    StyleSheet,
     TouchableOpacity
 } from "react-native";
 
@@ -14,21 +15,52 @@ import { Main } from '../common/view';
 import { Question, Answer } from '../common/text';
 import { AnswerContainer } from '../common/touchable';
 
-export default class Quiz extends React.Component {
+const styles = StyleSheet.create({
+ 
+MainContainer :{
+ 
+    justifyContent: 'center',
+    flex:1,
+    margin: 5,
+    marginTop: 20,
+ 
+},
+ 
+textView: {
+ 
+    width:'100%', 
+    textAlignVertical:'center',
+    padding:10,
+    color: '#000'
+ 
+}
+});
+
+export default class Genre extends React.Component {
 
     constructor(props){
         super(props);
         this.state ={
             isLoading: true,
-            type: 'humeur',
+            type: 'genre',
             finished: false
         }
     }
 
     componentDidMount(){
+        const { navigation } = this.props;
         const { type } = this.state;
+        const mood = navigation.getParam('mood', 'Joyeux');
+        const reason = navigation.getParam('reason');
+        var url= '';
 
-        return fetch('http://192.168.1.37:3000/api/question/{"type": "humeur"}', {
+        if (reason) {
+            url = 'http://192.168.1.37:3000/api/question/{"type": "genre", "mood":  "'+mood+'", "reason":  "'+reason+'"}'
+        }else{
+            url = 'http://192.168.1.37:3000/api/question/{"type": "genre", "mood":  "'+mood+'"}'
+        }
+
+        return fetch(url, {
             method: "GET"
         })
         .then((response) => response.json())
@@ -36,9 +68,8 @@ export default class Quiz extends React.Component {
 
             this.setState({
                 isLoading: false,
-                questions: responseJson.question,
+                questions: responseJson.question
             });
-
         })
         .catch((error) =>{
             console.error(error);
@@ -64,18 +95,8 @@ export default class Quiz extends React.Component {
                         
                             <AnswerContainer 
                               onPress={() => {
-                                var q_type = '';
-                                var q_route = '';
-                                if (item.answer_mood == 'Neutre') {
-                                    q_type = 'genre';
-                                    q_route = 'Genre';
-                                }else{
-                                    q_type = 'raison';
-                                    q_route = 'Reason';
-                                }
-                                this.props.navigation.navigate(q_route, {
-                                  type: q_type,
-                                  mood: item.answer_mood,
+                                this.props.navigation.navigate('Result', {
+                                  genre_ids: item.answer_genre,
                                 });
                               }}>
                                 <Answer>{item.answer_content}</Answer>

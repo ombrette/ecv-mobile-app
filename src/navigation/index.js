@@ -10,12 +10,20 @@ import AuthLoadingScreen from "../features/auth";
 import Search from "../features/search";
 import Account from "../features/account";
 import Quiz from "../features/quiz";
+import Reason from "../features/quiz/reason.js";
+import Genre from "../features/quiz/genre.js";
+import Result from "../features/quiz/result.js";
+import Single from "../features/single";
 
 import { Icon } from 'react-native-elements'
 
 export const QuizPages = StackNavigator({ 
     Home: Home,
     Quiz: Quiz,
+    Reason: Reason,
+    Genre: Genre,
+    Result: Result,
+    Single: Single,
 });
 
 export const AppStack = TabNavigator(

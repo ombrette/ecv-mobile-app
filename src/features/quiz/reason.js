@@ -5,6 +5,7 @@ import {
     View, 
     Text, 
     ScrollView,
+    StyleSheet,
     TouchableOpacity
 } from "react-native";
 
@@ -14,21 +15,44 @@ import { Main } from '../common/view';
 import { Question, Answer } from '../common/text';
 import { AnswerContainer } from '../common/touchable';
 
-export default class Quiz extends React.Component {
+const styles = StyleSheet.create({
+ 
+MainContainer :{
+ 
+    justifyContent: 'center',
+    flex:1,
+    margin: 5,
+    marginTop: 20,
+ 
+},
+ 
+textView: {
+ 
+    width:'100%', 
+    textAlignVertical:'center',
+    padding:10,
+    color: '#000'
+ 
+}
+});
+
+export default class Reason extends React.Component {
 
     constructor(props){
         super(props);
         this.state ={
             isLoading: true,
-            type: 'humeur',
+            type: 'raison',
             finished: false
         }
     }
 
     componentDidMount(){
+        const { navigation } = this.props;
         const { type } = this.state;
+        const mood = navigation.getParam('mood', 'Joyeux');
 
-        return fetch('http://192.168.1.37:3000/api/question/{"type": "humeur"}', {
+        return fetch('http://192.168.1.37:3000/api/question/{"type": "raison", "mood":  "'+mood+'"}', {
             method: "GET"
         })
         .then((response) => response.json())
@@ -64,18 +88,10 @@ export default class Quiz extends React.Component {
                         
                             <AnswerContainer 
                               onPress={() => {
-                                var q_type = '';
-                                var q_route = '';
-                                if (item.answer_mood == 'Neutre') {
-                                    q_type = 'genre';
-                                    q_route = 'Genre';
-                                }else{
-                                    q_type = 'raison';
-                                    q_route = 'Reason';
-                                }
-                                this.props.navigation.navigate(q_route, {
-                                  type: q_type,
-                                  mood: item.answer_mood,
+                                this.props.navigation.navigate('Genre', {
+                                  type: 'raison',
+                                  mood: this.state.questions.mood,
+                                  reason: item.answer_reason,
                                 });
                               }}>
                                 <Answer>{item.answer_content}</Answer>
