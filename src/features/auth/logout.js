@@ -26,7 +26,7 @@ export default class Logout extends React.Component {
 
     async _userLogout() {
         try {
-            await AsyncStorage.clear();
+            AsyncStorage.clear();
             this.props.navigation.navigate('Auth');
         } catch (error) {
             console.log('AsyncStorage error: ' + error.message);
