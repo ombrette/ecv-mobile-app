@@ -8,6 +8,8 @@ import {
 
 import Container from '../common/container';
 import Button from '../common/button';
+import { Main } from '../common/view';
+import { Intro } from '../common/text';
 
 const styles = StyleSheet.create({
 });
@@ -21,10 +23,11 @@ export default class Home extends React.Component {
 
     render(){
         return(
-            <View style={styles.container}>
+            <Main>
                 <View style={styles.row}>
                     <ScrollView style={styles.scroll}>
-                        <Text>Bienvenu sur MovieSpotter l'application qui vous propose un film en fonction de vos envies et de vos humeurs!</Text>
+                        <Intro>Bienvenu sur MovieSpotter!!! 
+                               {"\n"}Voici l'application qui te propose un film en fonction de tes envies et de tes humeurs!</Intro>
                         <Container>
                             <Button 
                                 label="Trouve moi un film"
@@ -33,7 +36,7 @@ export default class Home extends React.Component {
                         </Container>
                     </ScrollView>
                 </View>
-            </View>
+            </Main>
         );
     }
 }

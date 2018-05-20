@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Goto } from '../common/text';
  
 import {
   StyleSheet,
@@ -12,7 +13,7 @@ const Button = (props) => {
         if(props.children){
             return props.children;
         }
-        return <Text style={props.styles.label}>{props.label}</Text>
+        return <Goto style={props.styles.label}>{props.label}</Goto>
     }
  
     return (
