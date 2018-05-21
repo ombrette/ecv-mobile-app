@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
   buttonBlackText: {
       fontSize: 20,
       color: '#000',
-
   },
   primaryButton: {
       backgroundColor: '#750e13'
@@ -157,10 +156,6 @@ export default class Login extends React.Component {
         })
         .done();
     };
-
-    press(){
-
-    }
 
 
     render() {

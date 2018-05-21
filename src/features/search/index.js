@@ -1,37 +1,69 @@
-import React from 'react';
-import { FlatList, ActivityIndicator, Text, View, AsyncStorage, StyleSheet, Image } from 'react-native';
-import Config from 'react-native-config';
+import React from "react";
+import {
+    AppRegistry,
+    AsyncStorage,
+    StyleSheet,
+    Text,
+    View,
+    TouchableHighlight,
+    Alert,
+    TextInput,
+    ScrollView
+} from 'react-native';
+
+import Container from '../common/container';
+import Button from '../common/button';
+import Label from '../common/label';
+import { Input } from '../common/textInput';
+import { Main } from '../common/view';
+
 import { API_URL } from '../../../api_url.js';
 
 const styles = StyleSheet.create({
- 
-MainContainer :{
- 
-    justifyContent: 'center',
-    flex:1,
-    margin: 5,
-    marginTop: 20,
- 
-},
- 
-// imageView: {
- 
-//     width: '50%',
-//     height: 100 ,
-//     margin: 7,
-//     borderRadius : 7
-
-// },
- 
-textView: {
- 
-    width:'50%', 
-    textAlignVertical:'center',
-    padding:10,
-    color: '#000'
- 
-}
+  scroll: {
+      backgroundColor: '#E1D7D8',
+      padding: 30,
+      flexDirection: 'column'
+  },
+  label: {
+      color: '#fff',
+      fontSize: 20
+  },
+  alignRight: {
+      alignSelf: 'flex-end'
+  },
+  transparentButton: {
+      marginTop: 30,
+      borderColor: '#3B5699',
+      borderWidth: 2
+  },
+  buttonBlueText: {
+      fontSize: 20,
+      color: '#000'
+  },
+  buttonBigText: {
+      fontSize: 20,
+      fontWeight: '700'
+  },
+  inline: {
+      flexDirection: 'row'
+  },
+  buttonWhiteText: {
+      fontSize: 20,
+      color: '#fff',
+  },
+  buttonBlackText: {
+      fontSize: 20,
+      color: '#000',
+  },
+  primaryButton: {
+      backgroundColor: '#750e13'
+  },
+  footer: {
+     marginTop: 50
+  }
 });
+
 
 export default class Search extends React.Component {
 
@@ -39,54 +71,85 @@ export default class Search extends React.Component {
         super(props);
         this.state ={ 
             isLoading: true,
+            search: {
+                value: '',
+                validate: true
+            }
+        };
+    }
+
+    handleSearch = (search) => {
+        if(search.length === 0){
+            this.setState({ search: {
+                value: search,
+                validate: false
+            }})
+        }
+        else{
+            this.setState({ search: {
+                value: search,
+                validate: true
+            }})
         }
     }
 
-    componentDidMount() {
-        return fetch(API_URL+'api/search/{"params": "movie"}', {
-            method: "GET",
+    _search() {
+        const { search } = this.state;
+
+        if (!search.value) { // if validation fails, value will be null
+          this.setState({ 
+            search: {
+                value: search.value,
+                validate: false
+            }
+          });
+          return ;
+        }
+
+        fetch(API_URL+"api/search/", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                keyword: search.value,
+            })
         })
         .then((response) => response.json())
-        .then((responseJson) => {
-
-            this.setState({
-                isLoading: false,
-                movies: responseJson.movies,
+        .then((responseData) => {
+            this.props.navigation.navigate('Search_Result', {
+              movies: responseData.movies,
             });
-
         })
-        .catch((error) =>{
-            console.error(error);
-        });
-
-    }
+        .done();
+    };
 
 
     render(){
-        if(this.state.isLoading){
-            return(
-                <View style={{flex: 1, padding: 20}}>
-                    <ActivityIndicator/>
-                </View>
-            )
-        }
-
         return(
-            <View style={{flex: 1, paddingTop:20}}>
-                <FlatList
-                    data={this.state.movies}
-                    renderItem={({item}) => 
-                        <View style={{flex:1, flexDirection: 'row'}}>
-        
-                          <Image source = {{ uri: "https://image.tmdb.org/t/p/w185_and_h278_bestv2" + item.poster_path }} />
-                        
-                          <Text style={styles.textView} >{item.title}</Text>
-             
-                        </View>
-                    }
-                    keyExtractor={(item, index) => index}
-                />
-            </View>
+            <Main>
+                <View>
+                    <ScrollView>
+                      <Container>
+                          <Input
+                              placeholder="Recherche"
+                              onChangeText={this.handleSearch}
+                              value={this.state.search.value}
+                              underlineColorAndroid="transparent"
+                          />
+                      </Container>
+                      <View>
+                          <Container>
+                              <Button 
+                                  label="Rechercher"
+                                  styles="" 
+                                  onPress={this._search.bind(this)} />
+                          </Container>
+                      </View>
+                    </ScrollView>
+                </View>
+            </Main>
         );
     }
 }

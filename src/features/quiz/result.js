@@ -17,27 +17,6 @@ import { AnswerContainer } from '../common/touchable';
 
 import { API_URL } from '../../../api_url.js';
 
-const styles = StyleSheet.create({
- 
-MainContainer :{
- 
-    justifyContent: 'center',
-    flex:1,
-    margin: 5,
-    marginTop: 20,
- 
-},
- 
-textView: {
- 
-    width:'50%', 
-    textAlignVertical:'center',
-    padding:10,
-    color: '#000'
- 
-}
-});
-
 export default class Result extends React.Component {
 
     constructor(props){
@@ -49,17 +28,20 @@ export default class Result extends React.Component {
     }
 
     componentDidMount(){
+        // Ici on récupère d'abord les paramètres envoyés par le component Genre et on va chercher les films correspondants aux genres
         const { navigation } = this.props;
         const { type } = this.state;
         var genres = navigation.getParam('genre_ids', '35');
-
+        console.log(genres);
         var genre_ids = '';
 
-        for (var i = genres.length - 1; i >= 0; i--) {
-            genre_ids += ', '+genres[i].id;
+        if(genres[0] != ''){
+            for (var i = genres.length - 1; i >= 0; i--) {
+                genre_ids += genres[i].id+', ';
+            }
         }
 
-        return fetch(API_URL+'api/search/{"type": "movie", "genres": "'+genre_ids+'"}', {
+        return fetch(API_URL+'api/movies_genres/{"type": "movie", "genres": "'+genre_ids+'"}', {
             method: "GET",
         })
         .then((response) => response.json())
@@ -85,6 +67,7 @@ export default class Result extends React.Component {
             )
         }
 
+        // On affiche ici la liste des films
         return(
             <Main>
                 <FlatList

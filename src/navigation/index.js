@@ -8,6 +8,7 @@ import Login from "../features/auth/login";
 import Signup from "../features/auth/signup";
 import AuthLoadingScreen from "../features/auth";
 import Search from "../features/search";
+import Search_Result from "../features/search/search_result.js";
 import Account from "../features/account";
 import Quiz from "../features/quiz";
 import Reason from "../features/quiz/reason.js";
@@ -26,6 +27,11 @@ export const QuizPages = StackNavigator({
     Single: Single,
 });
 
+export const SearchPages = StackNavigator({ 
+    Search: Search,
+    Search_Result: Search_Result,
+});
+
 export const AppStack = TabNavigator(
 {
     Spotter: {
@@ -36,7 +42,7 @@ export const AppStack = TabNavigator(
         }
     },
     Search: {
-        screen: Search,
+        screen: SearchPages,
         navigationOptions: {
             tabBarLabel: 'Recherche',
             tabBarIcon: ({ tintColor }) => <Icon name='movie' size={35} color={tintColor} />,

@@ -64,6 +64,18 @@ export const Title = styled.Text`
     padding-bottom: 15px; 
 `;
 
+export const Home_Subitle = styled.Text`
+    font-size: 20px;
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 50px;
+    color: #750e13;
+    border-style: solid;
+    border-color: #750e13;
+    border-bottom-width: 1px;
+`;
+
 export const Subtitle = styled.Text`
     font-size: 16px;
     width: 90%;

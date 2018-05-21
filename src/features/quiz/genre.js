@@ -17,27 +17,6 @@ import { AnswerContainer } from '../common/touchable';
 
 import { API_URL } from '../../../api_url.js';
 
-const styles = StyleSheet.create({
- 
-MainContainer :{
- 
-    justifyContent: 'center',
-    flex:1,
-    margin: 5,
-    marginTop: 20,
- 
-},
- 
-textView: {
- 
-    width:'100%', 
-    textAlignVertical:'center',
-    padding:10,
-    color: '#000'
- 
-}
-});
-
 export default class Genre extends React.Component {
 
     constructor(props){
@@ -50,6 +29,7 @@ export default class Genre extends React.Component {
     }
 
     componentDidMount(){
+        // Ici on récupère d'abord les paramètres envoyés par le component Reason et on va chercher les questions sur les genres
         const { navigation } = this.props;
         const { type } = this.state;
         const mood = navigation.getParam('mood', 'Joyeux');
@@ -87,6 +67,7 @@ export default class Genre extends React.Component {
             )
         }
 
+        // On affiche ici la question suivie des réponses
         return(
             <Main>
                 <Question>{this.state.questions.content}</Question>

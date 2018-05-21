@@ -6,7 +6,7 @@ import {
     Text, 
     ScrollView,
     StyleSheet,
-    TouchableOpacity
+    Image
 } from "react-native";
 
 import Container from '../common/container';
@@ -17,7 +17,7 @@ import { AnswerContainer } from '../common/touchable';
 
 import { API_URL } from '../../../api_url.js';
 
-export default class Reason extends React.Component {
+export default class Search_Result extends React.Component {
 
     constructor(props){
         super(props);
@@ -27,24 +27,13 @@ export default class Reason extends React.Component {
     }
 
     componentDidMount(){
-        // Ici on récupère d'abord les paramètres envoyés par le component Quiz et on va chercher les questions sur les raisons de l'humeur/les envies
+        // Ici on récupère d'abord les paramètres envoyés par le component Genre et on va chercher les films correspondants aux genres
         const { navigation } = this.props;
-        const mood = navigation.getParam('mood', 'Joyeux');
+        var movies = navigation.getParam('movies');
 
-        return fetch(API_URL+'api/question/{"type": "raison", "mood":  "'+mood+'"}', {
-            method: "GET"
-        })
-        .then((response) => response.json())
-        .then((responseJson) => {
-
-            this.setState({
-                isLoading: false,
-                questions: responseJson.question,
-            });
-
-        })
-        .catch((error) =>{
-            console.error(error);
+        this.setState({
+            isLoading: false,
+            movies: movies,
         });
     }
 
@@ -56,27 +45,22 @@ export default class Reason extends React.Component {
                 </View>
             )
         }
-        
-        // On affiche ici la question suivie des réponses
+
+        // On affiche ici la liste des films
         return(
             <Main>
-                <Question>{this.state.questions.content}</Question>
                 <FlatList
-                    data={this.state.questions.answers}
-                    renderItem={({item}) =>
+                    data={this.state.movies}
+                    renderItem={({item}) => 
                         <View style={{flex:1, flexDirection: 'row'}}>
-                        
                             <AnswerContainer 
                               onPress={() => {
-                                this.props.navigation.navigate('Genre', {
-                                  type: 'raison',
-                                  mood: this.state.questions.mood,
-                                  reason: item.answer_reason,
+                                this.props.navigation.navigate('Single', {
+                                  single_movie: item.id,
                                 });
                               }}>
-                                <Answer>{item.answer_content}</Answer>
+                                <Answer>{item.title}</Answer>
                             </AnswerContainer>
-             
                         </View>
                     }
                     keyExtractor={(item, index) => index}
