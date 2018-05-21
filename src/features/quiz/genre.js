@@ -15,6 +15,8 @@ import { Main } from '../common/view';
 import { Question, Answer } from '../common/text';
 import { AnswerContainer } from '../common/touchable';
 
+import { API_URL } from '../../../api_url.js';
+
 const styles = StyleSheet.create({
  
 MainContainer :{
@@ -55,9 +57,9 @@ export default class Genre extends React.Component {
         var url= '';
 
         if (reason) {
-            url = 'http://192.168.1.37:3000/api/question/{"type": "genre", "mood":  "'+mood+'", "reason":  "'+reason+'"}'
+            url = API_URL+'api/question/{"type": "genre", "mood":  "'+mood+'", "reason":  "'+reason+'"}'
         }else{
-            url = 'http://192.168.1.37:3000/api/question/{"type": "genre", "mood":  "'+mood+'"}'
+            url = API_URL+'api/question/{"type": "genre", "mood":  "'+mood+'"}'
         }
 
         return fetch(url, {

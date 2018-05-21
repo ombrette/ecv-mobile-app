@@ -15,6 +15,8 @@ import { Main } from '../common/view';
 import { Question, Answer } from '../common/text';
 import { AnswerContainer } from '../common/touchable';
 
+import { API_URL } from '../../../api_url.js';
+
 const styles = StyleSheet.create({
  
 MainContainer :{
@@ -41,18 +43,16 @@ export default class Reason extends React.Component {
     constructor(props){
         super(props);
         this.state ={
-            isLoading: true,
-            type: 'raison',
-            finished: false
+            isLoading: true
         }
     }
 
     componentDidMount(){
+        // Ici on récupère d'abord les paramètres envoyés par le component Quiz et on va chercher les questions sur les raisons de l'humeur/les envies
         const { navigation } = this.props;
-        const { type } = this.state;
         const mood = navigation.getParam('mood', 'Joyeux');
 
-        return fetch('http://192.168.1.37:3000/api/question/{"type": "raison", "mood":  "'+mood+'"}', {
+        return fetch(API_URL+'api/question/{"type": "raison", "mood":  "'+mood+'"}', {
             method: "GET"
         })
         .then((response) => response.json())

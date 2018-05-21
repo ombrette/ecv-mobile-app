@@ -51,3 +51,30 @@ export const Answer = styled.Text`
     padding-top: 5px;
     padding-bottom: 15px; 
 `;
+
+export const Title = styled.Text`
+    font-size: 30px;
+    width: 90%;
+    margin: 0 auto;
+    border-style: solid;
+    border-color: #ccc;
+    border-bottom-width: 1px;
+    color: #750e13;
+    padding-top: 5px;
+    padding-bottom: 15px; 
+`;
+
+export const Subtitle = styled.Text`
+    font-size: 16px;
+    width: 90%;
+    color: #000;
+    padding: 10px;
+    font-weight: bold;
+`;
+
+export const Content = styled.Text`
+    font-size: 16px;
+    width: 90%;
+    color: #000;
+    padding: 10px;
+`;

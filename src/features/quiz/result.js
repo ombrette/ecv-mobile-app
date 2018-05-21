@@ -12,6 +12,10 @@ import {
 import Container from '../common/container';
 import Button from '../common/button';
 import { Main } from '../common/view';
+import { Question, Answer } from '../common/text';
+import { AnswerContainer } from '../common/touchable';
+
+import { API_URL } from '../../../api_url.js';
 
 const styles = StyleSheet.create({
  
@@ -21,15 +25,6 @@ MainContainer :{
     flex:1,
     margin: 5,
     marginTop: 20,
- 
-},
-
-imageView: {
- 
-    width: '50%',
-    height: 100 ,
-    margin: 7,
-    borderRadius : 7
  
 },
  
@@ -64,8 +59,7 @@ export default class Result extends React.Component {
             genre_ids += ', '+genres[i].id;
         }
 
-
-        return fetch('http://192.168.1.37:3000/api/search/{"type": "movie", "genres": "'+genre_ids+'"}', {
+        return fetch(API_URL+'api/search/{"type": "movie", "genres": "'+genre_ids+'"}', {
             method: "GET",
         })
         .then((response) => response.json())
@@ -82,22 +76,12 @@ export default class Result extends React.Component {
         });
     }
 
-    singleMovie(item) {
-        var image_path = "https://image.tmdb.org/t/p/w185_and_h278_bestv2" + item.poster_path;
-        return <View style={{flex:1, flexDirection: 'row'}}>
-                  <Image source = {{ uri: image_path }} style={styles.imageView} />
-                
-                  <Text style={styles.textView} >{item.title}</Text>
-     
-                </View>;
-    }
-
     render(){
         if(this.state.isLoading){
             return(
-                <Main style={{flex: 1, padding: 20}}>
+                <View style={{flex: 1, padding: 20}}>
                     <ActivityIndicator/>
-                </Main>
+                </View>
             )
         }
 
@@ -106,10 +90,16 @@ export default class Result extends React.Component {
                 <FlatList
                     data={this.state.movies}
                     renderItem={({item}) => 
-                        {
-                            console.log(this.singleMovie(item));
-                            this.singleMovie(item);
-                        }
+                        <View style={{flex:1, flexDirection: 'row'}}>
+                            <AnswerContainer 
+                              onPress={() => {
+                                this.props.navigation.navigate('Single', {
+                                  single_movie: item.id,
+                                });
+                              }}>
+                                <Answer>{item.title}</Answer>
+                            </AnswerContainer>
+                        </View>
                     }
                     keyExtractor={(item, index) => index}
                 />

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList, ActivityIndicator, Text, View, AsyncStorage, StyleSheet, Image } from 'react-native';
 import Config from 'react-native-config';
+import { API_URL } from '../../../api_url.js';
 
 const styles = StyleSheet.create({
  
@@ -42,7 +43,7 @@ export default class Search extends React.Component {
     }
 
     componentDidMount() {
-        return fetch('http://192.168.1.37:3000/api/search/{"params": "movie"}', {
+        return fetch(API_URL+'api/search/{"params": "movie"}', {
             method: "GET",
         })
         .then((response) => response.json())

@@ -16,9 +16,11 @@ import Button from '../common/button';
 import Label from '../common/label';
 import { Input } from '../common/textInput';
 
+import { API_URL } from '../../../api_url.js';
+
 const styles = StyleSheet.create({
   scroll: {
-      backgroundColor: '#181818',
+      backgroundColor: '#E1D7D8',
       padding: 30,
       flexDirection: 'column'
   },
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
   },
   buttonBlueText: {
       fontSize: 20,
-      color: '#fff'
+      color: '#000'
   },
   buttonBigText: {
       fontSize: 20,
@@ -47,11 +49,11 @@ const styles = StyleSheet.create({
   },
   buttonWhiteText: {
       fontSize: 20,
-      color: '#FFF',
+      color: '#fff',
   },
   buttonBlackText: {
       fontSize: 20,
-      color: '#fff',
+      color: '#000',
 
   },
   primaryButton: {
@@ -135,7 +137,7 @@ export default class Login extends React.Component {
           return ;
         }
 
-        fetch("http://192.168.43.123:3000/api/signin", {
+        fetch(API_URL+"api/signin", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -150,6 +152,7 @@ export default class Login extends React.Component {
         .then((responseData) => {
             this._onValueChange('userToken', responseData.token),
             this._onValueChange('userNickname', responseData.user),
+            console.log(responseData.token),
             this.props.navigation.navigate('App');
         })
         .done();

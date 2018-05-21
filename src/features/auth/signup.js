@@ -16,6 +16,8 @@ import Button from '../common/button';
 import Label from '../common/label';
 import { Input } from '../common/textInput';
 
+import { API_URL } from '../../../api_url.js';
+
 const styles = StyleSheet.create({
   scroll: {
       backgroundColor: '#E1D7D8',
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
 
   },
   primaryButton: {
-      backgroundColor: '#34A853'
+      backgroundColor: '#750e13'
   },
   footer: {
      marginTop: 50
@@ -160,7 +162,7 @@ export default class Signup extends React.Component {
           });
           return ;
         }
-        fetch("http://192.168.43.123:3000/api/signup", {
+        fetch(API_URL+"api/signup", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',

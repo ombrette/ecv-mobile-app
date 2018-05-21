@@ -14,21 +14,20 @@ import { Main } from '../common/view';
 import { Question, Answer } from '../common/text';
 import { AnswerContainer } from '../common/touchable';
 
+import { API_URL } from '../../../api_url.js';
+
 export default class Quiz extends React.Component {
 
     constructor(props){
         super(props);
         this.state ={
             isLoading: true,
-            type: 'humeur',
-            finished: false
         }
     }
 
     componentDidMount(){
-        const { type } = this.state;
-
-        return fetch('http://192.168.1.37:3000/api/question/{"type": "humeur"}', {
+        // Ici on récupère les premières questions sur l'humeur
+        return fetch(API_URL+'api/question/{"type": "humeur"}', {
             method: "GET"
         })
         .then((response) => response.json())
@@ -53,7 +52,9 @@ export default class Quiz extends React.Component {
                 </View>
             )
         }
+        
 
+        // On affiche ici la question suivie des réponses
         return(
             <Main>
                 <Question>{this.state.questions.content}</Question>
